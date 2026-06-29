@@ -109,8 +109,8 @@ public class TopicCommandTest {
     private final String topicName = "topicName";
 
     @Test
-    public void testIsNotUnderReplicatedWhenAdding() {
-        List<Integer> replicaIds = List.of(1, 2);
+    public void testIsNotUnderReplicatedWhenReassignmentMovesReplica() {
+        List<Integer> replicaIds = List.of(1, 2, 3);
         List<Node> replicas = new ArrayList<>();
         for (int id : replicaIds) {
             replicas.add(new Node(id, "localhost", 9090 + id));
@@ -118,9 +118,45 @@ public class TopicCommandTest {
 
         TopicCommand.PartitionDescription partitionDescription = new TopicCommand.PartitionDescription("test-topic",
                 new TopicPartitionInfo(0, new Node(1, "localhost", 9091), replicas,
-                        List.of(new Node(1, "localhost", 9091))),
+                        List.of(new Node(1, "localhost", 9091), new Node(2, "localhost", 9092))),
                 null,
-                new PartitionReassignment(replicaIds, List.of(2), List.of())
+                new PartitionReassignment(replicaIds, List.of(3), List.of(1))
+        );
+
+        assertFalse(partitionDescription.isUnderReplicated());
+    }
+
+    @Test
+    public void testIsUnderReplicatedWhenReassignmentIncreasesReplicationFactor() {
+        List<Integer> replicaIds = List.of(1, 2, 3);
+        List<Node> replicas = new ArrayList<>();
+        for (int id : replicaIds) {
+            replicas.add(new Node(id, "localhost", 9090 + id));
+        }
+
+        TopicCommand.PartitionDescription partitionDescription = new TopicCommand.PartitionDescription("test-topic",
+                new TopicPartitionInfo(0, new Node(1, "localhost", 9091), replicas,
+                        List.of(new Node(1, "localhost", 9091), new Node(2, "localhost", 9092))),
+                null,
+                new PartitionReassignment(replicaIds, List.of(3), List.of())
+        );
+
+        assertTrue(partitionDescription.isUnderReplicated());
+    }
+
+    @Test
+    public void testIsNotUnderReplicatedWhenReassignmentDecreasesReplicationFactor() {
+        List<Integer> replicaIds = List.of(1, 2, 3);
+        List<Node> replicas = new ArrayList<>();
+        for (int id : replicaIds) {
+            replicas.add(new Node(id, "localhost", 9090 + id));
+        }
+
+        TopicCommand.PartitionDescription partitionDescription = new TopicCommand.PartitionDescription("test-topic",
+                new TopicPartitionInfo(0, new Node(1, "localhost", 9091), replicas,
+                        List.of(new Node(1, "localhost", 9091), new Node(2, "localhost", 9092))),
+                null,
+                new PartitionReassignment(replicaIds, List.of(), List.of(3))
         );
 
         assertFalse(partitionDescription.isUnderReplicated());

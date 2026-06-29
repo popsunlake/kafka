@@ -187,7 +187,7 @@ public abstract class TopicCommand {
 
     private static int getReplicationFactor(TopicPartitionInfo tpi, PartitionReassignment reassignment) {
         return isReassignmentInProgress(tpi, reassignment) ?
-            reassignment.replicas().size() - reassignment.addingReplicas().size() :
+            reassignment.replicas().size() - reassignment.removingReplicas().size() :
             tpi.replicas().size();
     }
 
