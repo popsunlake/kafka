@@ -155,7 +155,7 @@ $ bin/kafka-storage.sh format --cluster-id <CLUSTER_ID> --config config/server.p
 When provisioning new controller nodes that we want to add to an existing Kafka cluster, use the `kafka-storage.sh format` command with the --no-initial-controllers flag. 
 
 ```bash
-$ bin/kafka-storage.sh format --cluster-id <CLUSTER_ID> --config config/server.properties --no-initial-controllers
+$ bin/kafka-storage.sh format --cluster-id <CLUSTER_ID> --config config/controller.properties --no-initial-controllers
 ```
 
 ## Controller membership changes
