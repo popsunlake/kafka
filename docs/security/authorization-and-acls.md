@@ -615,7 +615,7 @@ $ bin/kafka-acls.sh --bootstrap-server localhost:9092 --add --allow-principal Us
 Similarly to add Alice as a consumer of Test-topic with consumer group Group-1 we just have to pass --consumer option: 
 
 ```bash
-$ bin/kafka-acls.sh --bootstrap-server localhost:9092 --add --allow-principal User:Bob --consumer --topic Test-topic --group Group-1
+$ bin/kafka-acls.sh --bootstrap-server localhost:9092 --add --allow-principal User:Alice --consumer --topic Test-topic --group Group-1
 ```
 
 Note that for consumer option we must also specify the consumer group. In order to remove a principal from producer or consumer role we just need to pass --remove option. 
