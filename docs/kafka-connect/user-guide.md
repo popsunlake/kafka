@@ -618,7 +618,7 @@ Offsets topic used by the connector
 
 This is the value of the `offsets.storage.topic` property in the connector’s configuration if provided,
 
-or the value of the `offsets.storage.topic` property in the worker’s configuration if not.
+or the value of the `offset.storage.topic` property in the worker’s configuration if not.
 </td>
 <td>
 
