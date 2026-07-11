@@ -95,7 +95,7 @@ Kafka Streams adds **header-aware** state stores. Opt in with the new `Stores` s
 - `persistentTimestampedWindowStoreWithHeaders` with `timestampedWindowStoreWithHeadersBuilder`
 - `persistentSessionStoreWithHeaders` with `sessionStoreWithHeadersBuilder`
 
-See the [Processor API state store documentation](/{version}/streams/developer-guide/processor-api/#headers-in-state-stores).
+See the [Processor API state store documentation](/{{version}}/documentation/streams/developer-guide/processor-api/#headers-in-state-stores).
 
 Existing applications that keep using the same headerless `Stores` suppliers and builders are unaffected: storage format, changelogs, and performance stay as before.
 
@@ -103,11 +103,11 @@ For stores that adopt the header-aware format, KIP-1271 defines a single rolling
 
 Storing headers increases disk and serialization cost versus headerless stores; the KIP discusses lazy header parsing and other performance considerations.
 
-`TopologyTestDriver` and Interactive Queries support the new store types. The existing `store()` facades continue to return values (or `ValueAndTimestamp`) without exposing record headers. See the [interactive queries guide](/{version}/streams/developer-guide/interactive-queries/#header-aware-stores-interactive-queries).
+`TopologyTestDriver` and Interactive Queries support the new store types. The existing `store()` facades continue to return values (or `ValueAndTimestamp`) without exposing record headers. See the [interactive queries guide](/{{version}}/documentation/streams/developer-guide/interactive-queries/#header-aware-stores-interactive-queries).
 
 ### Headers-Aware State Stores for DSL Operators (KIP-1285)
 
-[KIP-1285](https://cwiki.apache.org/confluence/x/4ow8G) lets DSL operators use the headers-aware state stores introduced by [KIP-1271](#kip-1271-headers-aware-stores). Set [`dsl.store.format=HEADERS`](/{version}/streams/developer-guide/config-streams.html#dsl-store-format) to use headers-aware stores for supported DSL operators. These stores can keep record headers together with the value and timestamp.
+[KIP-1285](https://cwiki.apache.org/confluence/x/4ow8G) lets DSL operators use the headers-aware state stores introduced by [KIP-1271](#kip-1271-headers-aware-stores). Set [`dsl.store.format=HEADERS`](/{{version}}/documentation/streams/developer-guide/config-streams.html#dsl-store-format) to use headers-aware stores for supported DSL operators. These stores can keep record headers together with the value and timestamp.
 
 The config only chooses the state store format. It does not define how DSL operators create headers for output records; see [Current limitations](#current-limitations) below.
 
@@ -225,7 +225,7 @@ In this release, eos-v1 (Exactly Once Semantics version 1) is no longer supporte
   * [Old processor APIs](https://issues.apache.org/jira/browse/KAFKA-12829)
   * [KStream#through() in both Java and Scala](https://issues.apache.org/jira/browse/KAFKA-12823)
   * ["transformer" methods and classes in both Java and Scala](https://issues.apache.org/jira/browse/KAFKA-16339)
-    * migrating from `KStreams#transformValues()` to `KStreams.processValues()` might not be safe due to [KAFKA-19668](https://issues.apache.org/jira/browse/KAFKA-19668). Please refer to the [migration guide](/43/streams/developer-guide/dsl-api/#transformers-removal-and-migration-to-processors) for more details. 
+    * migrating from `KStreams#transformValues()` to `KStreams.processValues()` might not be safe due to [KAFKA-19668](https://issues.apache.org/jira/browse/KAFKA-19668). Please refer to the [migration guide](/43/documentation/streams/developer-guide/dsl-api/#transformers-removal-and-migration-to-processors) for more details.
   * [kstream.KStream#branch in both Java and Scala](https://issues.apache.org/jira/browse/KAFKA-12824)
   * [builder methods for Time/Session/Join/SlidingWindows](https://issues.apache.org/jira/browse/KAFKA-16332)
   * [KafkaStreams#setUncaughtExceptionHandler()](https://issues.apache.org/jira/browse/KAFKA-12827)
@@ -374,7 +374,7 @@ Kafka Streams does not send a "leave group" request when an instance is closed. 
   * `KStream<KOut,VOut> KStream.process(ProcessorSupplier, ...)`
   * `KStream<K,VOut> KStream.processValues(FixedKeyProcessorSupplier, ...)`
 
-Both new methods have multiple overloads and return a `KStream` instead of `void` as the deprecated `process()` methods did. In addition, `FixedKeyProcessor`, `FixedKeyRecord`, `FixedKeyProcessorContext`, and `ContextualFixedKeyProcessor` are introduced to guard against disallowed key modification inside `processValues()`. Furthermore, `ProcessingContext` is added for a better interface hierarchy. **CAUTION:** The newly added `KStream.processValues()` method introduced a regression bug ([KAFKA-19668](https://issues.apache.org/jira/browse/KAFKA-19668)). If you have "merge repartition topics" optimization enabled, it is not safe to migrate from `transformValues()` to `processValues()` in 3.3.0 release. The bug is only fixed with Kafka Streams 4.0.1, 4.1.1, and 4.2.0. For more details, please refer to the [migration guide](/43/streams/developer-guide/dsl-api/#transformers-removal-and-migration-to-processors). 
+Both new methods have multiple overloads and return a `KStream` instead of `void` as the deprecated `process()` methods did. In addition, `FixedKeyProcessor`, `FixedKeyRecord`, `FixedKeyProcessorContext`, and `ContextualFixedKeyProcessor` are introduced to guard against disallowed key modification inside `processValues()`. Furthermore, `ProcessingContext` is added for a better interface hierarchy. **CAUTION:** The newly added `KStream.processValues()` method introduced a regression bug ([KAFKA-19668](https://issues.apache.org/jira/browse/KAFKA-19668)). If you have "merge repartition topics" optimization enabled, it is not safe to migrate from `transformValues()` to `processValues()` in 3.3.0 release. The bug is only fixed with Kafka Streams 4.0.1, 4.1.1, and 4.2.0. For more details, please refer to the [migration guide](/43/documentation/streams/developer-guide/dsl-api/#transformers-removal-and-migration-to-processors).
 
 Emitting a windowed aggregation result only after a window is closed is currently supported via the `suppress()` operator. However, `suppress()` uses an in-memory implementation and does not support RocksDB. To close this gap, [KIP-825](https://cwiki.apache.org/confluence/x/n7fkCw) introduces "emit strategies", which are built into the aggregation operator directly to use the already existing RocksDB store. `TimeWindowedKStream.emitStrategy(EmitStrategy)` and `SessionWindowedKStream.emitStrategy(EmitStrategy)` allow picking between "emit on window update" (default) and "emit on window close" strategies. Additionally, a few new emit metrics are added, as well as a necessary new method, `SessionStore.findSessions(long, long)`. 
 
