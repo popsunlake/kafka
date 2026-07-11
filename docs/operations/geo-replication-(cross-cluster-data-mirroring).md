@@ -225,10 +225,10 @@ The configuration of a replication flow is a combination of top-level default se
 The most important settings are: 
 
   * `topics`: list of topics or a regular expression that defines which topics in the source cluster to replicate (default: `topics = .*`) 
-  * `topics.exclude`: list of topics or a regular expression to subsequently exclude topics that were matched by the `topics` setting (default: `topics.exclude = .*[\-\.]internal, .*\.replica, __.*`) 
+  * `topics.exclude`: list of topics or a regular expression to subsequently exclude topics that were matched by the `topics` setting (default: `topics.exclude = mm2.*\.internal, .*\.replica, __.*`)
   * `groups`: list of topics or regular expression that defines which consumer groups in the source cluster to replicate (default: `groups = .*`) 
   * `groups.exclude`: list of topics or a regular expression to subsequently exclude consumer groups that were matched by the `groups` setting (default: `groups.exclude = console-consumer-.*, connect-.*, __.*`) 
-  * `{source}->{target}.enable`: set to `true` to enable the replication flow (default: `false`) 
+  * `{source}->{target}.enabled`: set to `true` to enable the replication flow (default: `false`)
 
 
 Example: 
