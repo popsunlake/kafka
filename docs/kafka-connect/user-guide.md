@@ -686,7 +686,7 @@ the name of the connector
 
 or the value of `consumer.group.id` if present in the Connect configuration,
 
-or the value of `consumer.overrides.group.id` if present in the Connector configuration
+or the value of `consumer.override.group.id` if present in the Connector configuration
 </td><td> </td></tr>
 <tr><td>Read</td><td>Topic</td><td>sink topic(s) that the connector will consume from</td><td>
 
