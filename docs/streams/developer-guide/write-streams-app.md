@@ -152,6 +152,7 @@ Code example:
     
     
     import org.apache.kafka.streams.KafkaStreams;
+    import org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler;
     import org.apache.kafka.streams.kstream.StreamsBuilder;
     import org.apache.kafka.streams.processor.Topology;
     
@@ -182,11 +183,12 @@ At this point, internal structures are initialized, but the processing is not st
 
 If there are other instances of this stream processing application running elsewhere (e.g., on another machine), Kafka Streams transparently re-assigns tasks from the existing instances to the new instance that you just started. For more information, see [Stream Partitions and Tasks](../architecture.html#streams_architecture_tasks) and [Threading Model](../architecture.html#streams_architecture_threads).
 
-To catch any unexpected exceptions, you can set an `java.lang.Thread.UncaughtExceptionHandler` before you start the application. This handler is called whenever a stream thread is terminated by an unexpected exception:
+To catch any unexpected exceptions, you can set a `StreamsUncaughtExceptionHandler` before you start the application. This handler receives the exception and must return a `StreamThreadExceptionResponse` indicating how to proceed:
     
     
-    streams.setUncaughtExceptionHandler((Thread thread, Throwable throwable) -> {
+    streams.setUncaughtExceptionHandler(throwable -> {
       // here you should examine the throwable/exception and perform an appropriate action!
+      return StreamsUncaughtExceptionHandler.StreamThreadExceptionResponse.SHUTDOWN_CLIENT;
     });
     
 
@@ -214,5 +216,4 @@ Kafka Streams comes with a `test-utils` module to help you test your application
   * [Documentation](/documentation)
   * [Kafka Streams](/documentation/streams)
   * [Developer Guide](/documentation/streams/developer-guide/)
-
 
