@@ -54,11 +54,7 @@ This command assumes that you want to add hostname information to the certificat
 Host name verification, when enabled, is the process of checking attributes from the certificate that is presented by the server you are connecting to against the actual hostname or ip address of that server to ensure that you are indeed connecting to the correct server.  
 The main reason for this check is to prevent man-in-the-middle attacks. For Kafka, this check has been disabled by default for a long time, but as of Kafka 2.0.0 host name verification of servers is enabled by default for client connections as well as inter-broker connections.  
 Server host name verification may be disabled by setting `ssl.endpoint.identification.algorithm` to an empty string.  
-For dynamically configured broker listeners, hostname verification may be disabled using `kafka-configs.sh`: 
-
-```bash
-$ bin/kafka-configs.sh --bootstrap-server localhost:9093 --entity-type brokers --entity-name 0 --alter --add-config "listener.name.internal.ssl.endpoint.identification.algorithm="
-```
+This setting cannot be updated dynamically. For broker listeners, configure it in the broker properties before starting the broker.
 
 **Note:**
 
@@ -340,6 +336,5 @@ Examples using console-producer and console-consumer:
 $ bin/kafka-console-producer.sh --bootstrap-server localhost:9093 --topic test --command-config client-ssl.properties
 $ bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic test --command-config client-ssl.properties
 ```
-
 
 
