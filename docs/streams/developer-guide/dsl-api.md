@@ -2116,7 +2116,7 @@ There are two exceptions where co-partitioning is not required. For KStream-Glob
   2. Within your application, re-partition the data of "SMALLER". You must ensure that, when repartitioning the data with `repartition`, the same partitioner is used as for "LARGER".
 
 >      * If "SMALLER" is a KStream: `KStream#repartition(Repartitioned.numberOfPartitions(...))`.
->      * If "SMALLER" is a KTable: `KTable#toStream#repartition(Repartitioned.numberOfPartitions(...).toTable())`.
+>      * If "SMALLER" is a KTable: `KTable#toStream#repartition(Repartitioned.numberOfPartitions(...)).toTable()`.
 
   3. Within your application, perform the join between "LARGER" and the new stream/table.
 
