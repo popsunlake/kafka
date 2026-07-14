@@ -118,7 +118,7 @@ topics = .*   # all topics to be replicated by default
 
 # Specific replication flow settings (here: flow from us-west to us-east)
 us-west->us-east.enabled = true
-us-west->us.east.topics = foo.*, bar.*  # override the default above
+us-west->us-east.topics = foo.*, bar.*  # override the default above
 ```
 
 MirrorMaker is based on the Kafka Connect framework. Any Kafka Connect, source connector, and sink connector settings as described in the documentation chapter on Kafka Connect can be used directly in the MirrorMaker configuration, without having to change or prefix the name of the configuration setting. 
@@ -225,10 +225,10 @@ The configuration of a replication flow is a combination of top-level default se
 The most important settings are: 
 
   * `topics`: list of topics or a regular expression that defines which topics in the source cluster to replicate (default: `topics = .*`) 
-  * `topics.exclude`: list of topics or a regular expression to subsequently exclude topics that were matched by the `topics` setting (default: `topics.exclude = .*[\-\.]internal, .*\.replica, __.*`) 
+  * `topics.exclude`: list of topics or a regular expression to subsequently exclude topics that were matched by the `topics` setting (default: `topics.exclude = mm2.*\.internal, .*\.replica, __.*`)
   * `groups`: list of topics or regular expression that defines which consumer groups in the source cluster to replicate (default: `groups = .*`) 
   * `groups.exclude`: list of topics or a regular expression to subsequently exclude consumer groups that were matched by the `groups` setting (default: `groups.exclude = console-consumer-.*, connect-.*, __.*`) 
-  * `{source}->{target}.enable`: set to `true` to enable the replication flow (default: `false`) 
+  * `{source}->{target}.enabled`: set to `true` to enable the replication flow (default: `false`)
 
 
 Example: 
@@ -347,7 +347,7 @@ The following example shows the basic settings to replicate topics between two c
 # Bidirectional flow (two-way) between us-west and us-east clusters
 clusters = us-west, us-east
 us-west.bootstrap.servers = broker1-west:9092,broker2-west:9092
-Us-east.bootstrap.servers = broker3-east:9092,broker4-east:9092
+us-east.bootstrap.servers = broker3-east:9092,broker4-east:9092
 
 us-west->us-east.enabled = true
 us-east->us-west.enabled = true
