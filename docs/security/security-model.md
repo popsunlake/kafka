@@ -120,7 +120,7 @@ The request log (`kafka.request.logger`) provides finer detail on individual API
 
 ## Secrets in Configuration
 
-Broker, client, and Connect properties files contain keystore passwords, SASL credentials, and similar secrets. Apache Kafka supports indirect references through `ConfigProvider` implementations (`FileConfigProvider`, `DirectoryConfigProvider`, or custom providers). Use them rather than embedding cleartext secrets in version-controlled configuration. For the file-based providers, set `allowed.paths` to the specific directories that hold those secrets so that a malicious or mistaken configuration cannot coerce the provider into reading arbitrary files elsewhere on the host. Sensitive dynamic broker configurations are encrypted at rest in the metadata log using `password.encoder.secret`; rotating that secret requires `password.encoder.old.secret` and a rolling restart.
+Broker, client, and Connect properties files contain keystore passwords, SASL credentials, and similar secrets. Apache Kafka supports indirect references through `ConfigProvider` implementations (`FileConfigProvider`, `DirectoryConfigProvider`, or custom providers). Use them rather than embedding cleartext secrets in version-controlled configuration. For the file-based providers, set `allowed.paths` to the specific directories that hold those secrets so that a malicious or mistaken configuration cannot coerce the provider into reading arbitrary files elsewhere on the host. Sensitive dynamic broker configurations are not encrypted at rest by Kafka in the KRaft metadata log. Protect access to the metadata log and use storage-level encryption where encryption at rest is required.
 
 ## Component-Specific Notes
 
