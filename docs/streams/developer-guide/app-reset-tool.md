@@ -94,6 +94,10 @@ The tool accepts the following parameters:
                                             topics. For these topics, the tool will
                                             reset the offset to the earliest
                                             available offset.
+    --intermediate-topics <String: list>  (Deprecated) Comma-separated list of intermediate
+                                            user topics (topics that are input and output
+                                            topics). For these topics, the tool will skip
+                                            to the end.
     --internal-topics <String: list>      Comma-separated list of internal topics
                                             to delete. Must be a subset of the
                                             internal topics marked for deletion by
@@ -139,5 +143,4 @@ For a complete application reset, you must delete the application's local state 
   * [Documentation](/documentation)
   * [Kafka Streams](/documentation/streams)
   * [Developer Guide](/documentation/streams/developer-guide/)
-
 
