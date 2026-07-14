@@ -3886,7 +3886,7 @@ Note that the metrics have a 4-layer hierarchy. At the top level there are clien
 Use the following configuration option to specify which metrics you want collected: 
 
 ```properties
-metrics.recording.level="info"
+metrics.recording.level=info
 ```
 
 ### Client Metrics
