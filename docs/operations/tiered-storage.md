@@ -57,17 +57,17 @@ The configuration prefixed with `local` are to specify the time/size the "local"
 
 ## Quick Start Example
 
-Apache Kafka doesn't provide an out-of-the-box RemoteStorageManager implementation. To have a preview of the tiered storage feature, the [LocalTieredStorage](https://github.com/apache/kafka/blob/trunk/storage/src/test/java/org/apache/kafka/server/log/remote/storage/LocalTieredStorage.java) implemented for integration test can be used, which will create a temporary directory in local storage to simulate the remote storage. 
+Apache Kafka doesn't provide an out-of-the-box RemoteStorageManager implementation. To have a preview of the tiered storage feature, the [LocalTieredStorage](https://github.com/apache/kafka/blob/trunk/storage/src/testFixtures/java/org/apache/kafka/server/log/remote/storage/LocalTieredStorage.java) implemented for integration test can be used, which will create a temporary directory in local storage to simulate the remote storage.
 
 To adopt the `LocalTieredStorage`, the test library needs to be built locally:
 
 ```bash
 # please checkout to the specific version tag you're using before building it
 # ex: `git checkout 4.3.0`
-$ ./gradlew clean :storage:testJar
+$ ./gradlew clean :storage:testFixturesJar
 ```
 
-After build successfully, there should be a `kafka-storage-x.x.x-test.jar` file under `storage/build/libs`. Next, setting configurations in the broker side to enable tiered storage feature.
+After build successfully, there should be a `kafka-storage-x.x.x-test-fixtures.jar` file under `storage/build/libs`. Next, setting configurations in the broker side to enable tiered storage feature.
 
 ```properties
 # Sample KRaft broker server.properties listening on PLAINTEXT://:9092
@@ -80,7 +80,7 @@ remote.log.metadata.manager.listener.name=PLAINTEXT
 # This is the mandatory configuration for tiered storage.
 # Here, we use the `LocalTieredStorage` built above.
 remote.log.storage.manager.class.name=org.apache.kafka.server.log.remote.storage.LocalTieredStorage
-remote.log.storage.manager.class.path=/PATH/TO/kafka-storage-4.3.0-test.jar
+remote.log.storage.manager.class.path=/PATH/TO/kafka-storage-4.3.0-test-fixtures.jar
 
 # These 2 prefix are default values, but customizable
 remote.log.storage.manager.impl.prefix=rsm.config.
@@ -109,7 +109,7 @@ Following quick start guide to start up the kafka environment. Then, create a to
 # Note that a local log segment is eligible for deletion only after it gets uploaded to remote.
 # retention.ms=3600000 -> when segments exceed this time, the segments in remote storage will be deleted
 # segment.bytes=1048576 -> for test only, to speed up the log segment rolling interval
-# file.delete.delay.ms=10000 -> for test only, to speed up the local-log segment file delete delay
+# file.delete.delay.ms=1000 -> for test only, to speed up the local-log segment file delete delay
 
 $ bin/kafka-topics.sh --create --topic tieredTopic --bootstrap-server localhost:9092 \
 --config remote.storage.enable=true --config local.retention.ms=1000 --config retention.ms=3600000 \
