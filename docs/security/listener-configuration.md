@@ -80,7 +80,7 @@ controller.listener.names=CONTROLLER
 listener.security.protocol.map=BROKER:SASL_SSL,CONTROLLER:SASL_SSL
 ```
 
-The controller listener is still configured in this example to use the `SASL_SSL` security protocol, but it is not included in `listeners` since the broker does not expose the controller listener itself. The port that will be used in this case comes from the `controller.quorum.voters` configuration, which defines the complete list of controllers.
+The controller listener is still configured in this example to use the `SASL_SSL` security protocol, but it is not included in `listeners` since the broker does not expose the controller listener itself. The port that will be used in this case comes from the `controller.quorum.bootstrap.servers` configuration, which defines the complete list of controllers.
 
 For KRaft servers which have both the broker and controller role enabled, the configuration is similar. The only difference is that the controller listener must be included in `listeners`:
 
