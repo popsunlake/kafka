@@ -113,12 +113,14 @@ Note: we create the output topic with compaction enabled because the output stre
     Created topic "streams-wordcount-output".
 
 The created topic can be described with the same **kafka-topics** tool: 
+
+The topic IDs in the output depend on the topics created in your cluster.
     
     
     $ bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --exclude-internal
-    Topic:streams-wordcount-output	PartitionCount:1	ReplicationFactor:1	Configs:cleanup.policy=compact,segment.bytes=1073741824
+    Topic: streams-wordcount-output	TopicId: <streams-wordcount-output-topic-id>	PartitionCount: 1	ReplicationFactor: 1	Configs: cleanup.policy=compact
     	Topic: streams-wordcount-output	Partition: 0	Leader: 0	Replicas: 0	Isr: 0
-    Topic:streams-plaintext-input	PartitionCount:1	ReplicationFactor:1	Configs:segment.bytes=1073741824
+    Topic: streams-plaintext-input	TopicId: <streams-plaintext-input-topic-id>	PartitionCount: 1	ReplicationFactor: 1	Configs:
     	Topic: streams-plaintext-input	Partition: 0	Leader: 0	Replicas: 0	Isr: 0
 
 ### Step 4: Start the Wordcount Application
@@ -257,5 +259,3 @@ You can now stop the console consumer, the console producer, the Wordcount appli
 
   * [Documentation](/documentation)
   * [Kafka Streams](/documentation/streams)
-
-
